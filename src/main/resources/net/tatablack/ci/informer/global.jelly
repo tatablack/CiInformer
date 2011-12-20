@@ -1,0 +1,15 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <f:section title="CI Informer">
+    <!--
+      Optional @help points to the help document HTML. /plugin/informer
+      is mapped to our webapp/ directory, so this is a convenient way to serve
+      static resources.
+    -->
+    <f:entry title="Port"
+             description="Port number of Websocket server">
+             help="/plugin/informer/help-globalConfig.html">
+             field="port"
+          <f:textbox default="${descriptor.port()}" />
+    </f:entry>
+  </f:section>
+</j:jelly>

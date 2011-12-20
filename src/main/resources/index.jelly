@@ -1,0 +1,3 @@
+<div>
+    The <strong>CI Informer plugin</strong> aims at providing <i>all Jenkins lifecycle events</i> through a WebSocket server.
+</div>

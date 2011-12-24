@@ -22,6 +22,8 @@ public class CiServerSaveableListener extends SaveableListener {
     private static final Logger logger = Logger.getLogger(CiServerSaveableListener.class.getName());
 
     public void onChange(Saveable saveable, XmlFile file) {
+        if(saveable==null) return;
+
         logger.finest("Instance of " + saveable.getClass().getName() + " changed.");
 
         String changed = null;

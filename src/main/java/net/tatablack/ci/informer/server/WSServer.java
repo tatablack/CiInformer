@@ -14,8 +14,7 @@ import org.webbitserver.WebServers;
 import org.webbitserver.WebSocketConnection;
 
 /**
- * @author Angelo
- *
+ * @author Angelo Tata
  */
 public class WSServer {
     private static final Logger logger = Logger.getLogger(CiServerObject.class.getName());
@@ -67,7 +66,7 @@ public class WSServer {
     synchronized public static void broadcast(String message) {
         if(CiServerObject.EMPTY_RESULT.equals(message)) return;
 
-        logger.finer("Trying to broadcast: '" + message + "' on " + WSServer.connections.size() + " connections");
+        logger.finest("Trying to broadcast: '" + message + "' on " + WSServer.connections.size() + " connections");
 
         for(WebSocketConnection connection : WSServer.connections) {
             connection.send(message);

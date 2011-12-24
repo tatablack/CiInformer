@@ -8,8 +8,7 @@ import java.util.logging.Logger;
 import net.tatablack.ci.informer.server.WSServer;
 
 /**
- * @author Angelo
- *
+ * @author Angelo Tata
  */
 public class InformerPlugin {
     private static final Logger logger = Logger.getLogger(InformerPlugin.class.getName());
@@ -25,7 +24,6 @@ public class InformerPlugin {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
                 logger.info("Informer Plugin stopping...");
-                System.out.println("Informer Plugin stopping...");
                 WSServer.stop(WSServer.MESSAGE.SHUTDOWN);
             };
         });

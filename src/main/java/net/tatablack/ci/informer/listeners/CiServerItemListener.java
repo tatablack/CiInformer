@@ -19,10 +19,6 @@ public class CiServerItemListener extends ItemListener {
     private static final Logger logger = Logger.getLogger(CiServerItemListener.class.getName());
 
     public void onCreated(Item item) {
-        logger.info("Full Display Name: " + item.getFullDisplayName());
-        logger.info("Url: " + item.getUrl());
-        logger.info("Class: " + item.getClass().getName());
-
         WSServer.broadcast(CiServerObject.toJSON(item));
     }
 }

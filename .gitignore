@@ -2,3 +2,9 @@
 .project
 .classpath
 .settings
+
+# Generated sources
+target
+
+# Uncompressed Jenkins/Hudson
+work

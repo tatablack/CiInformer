@@ -9,16 +9,15 @@ import net.tatablack.ci.informer.server.WSServer;
 
 /**
  * @author Angelo Tata
- * 27/nov/2011
  */
 @Extension
 public class CiServerRestartListener extends RestartListener {
-	/* (non-Javadoc)
-	 * @see hudson.model.RestartListener#isReadyToRestart()
-	 */
-	@Override
-	public boolean isReadyToRestart() throws IOException, InterruptedException {
-		WSServer.stop(WSServer.MESSAGE.RESTART);
-		return true;
-	}
+    /* (non-Javadoc)
+     * @see hudson.model.RestartListener#isReadyToRestart()
+     */
+    @Override
+    public boolean isReadyToRestart() throws IOException, InterruptedException {
+        WSServer.stop(WSServer.MESSAGE.RESTART);
+        return true;
+    }
 }

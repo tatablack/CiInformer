@@ -13,7 +13,6 @@ import org.kohsuke.stapler.export.TreePruner;
 
 /**
  * @author Angelo Tata
- *
  */
 public class CiServerObject {
     private static final ModelBuilder MODEL_BUILDER = new ModelBuilder();

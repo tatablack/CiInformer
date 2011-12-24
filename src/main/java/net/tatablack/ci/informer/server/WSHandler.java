@@ -7,7 +7,6 @@ import org.webbitserver.WebSocketHandler;
 
 /**
  * @author Angelo Tata
- *
  */
 public class WSHandler implements WebSocketHandler {
     private static final Logger logger = Logger.getLogger(WSHandler.class.getName());

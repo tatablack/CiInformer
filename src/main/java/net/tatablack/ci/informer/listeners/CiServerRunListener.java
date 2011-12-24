@@ -12,22 +12,24 @@ import net.tatablack.ci.informer.server.WSServer;
 
 /**
  * @author Angelo Tata
- *
- * 25/nov/2011
  */
 @Extension
 public class CiServerRunListener extends RunListener<AbstractBuild> {
     private static final Logger logger = Logger.getLogger(CiServerRunListener.class.getName());
 
-	@Override
-	public void onStarted(AbstractBuild build, TaskListener listener) {
-		logger.finest("Build for " + build.getFullDisplayName() + " started.");
-		WSServer.broadcast(CiServerObject.toJSON(build));
-	}
+    @Override
+    public void onStarted(AbstractBuild build, TaskListener listener) {
+        if(build!=null) {
+            logger.finest("Build for " + build.getFullDisplayName() + " started.");
+            WSServer.broadcast(CiServerObject.toJSON(build));
+        }
+    }
 
-	@Override
-	public void onFinalized(AbstractBuild build) {
-		logger.finest("Build for " + build.getFullDisplayName() + " terminated.");
-		WSServer.broadcast(CiServerObject.toJSON(build));
-	}
+    @Override
+    public void onFinalized(AbstractBuild build) {
+        if(build!=null) {
+            logger.finest("Build for " + build.getFullDisplayName() + " terminated.");
+            WSServer.broadcast(CiServerObject.toJSON(build));
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package net.tatablack.ci.informer.test;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -13,9 +14,9 @@ public class InformerPluginTest {
     @Before public void setUp() {
     }
 
-    @Test public void shouldStartWSServerOnInitialization() {
+    @Test @Ignore public void shouldStartWSServerOnInitialization() {
     }
 
-    @Test public void shouldStopWSServerWhenShuttingDown() {
+    @Test @Ignore public void shouldStopWSServerWhenShuttingDown() {
     }
 }

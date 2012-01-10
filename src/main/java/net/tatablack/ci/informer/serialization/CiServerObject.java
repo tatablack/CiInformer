@@ -18,6 +18,9 @@ public class CiServerObject {
     private static final ModelBuilder MODEL_BUILDER = new ModelBuilder();
     private static final Logger logger = Logger.getLogger(CiServerObject.class.getName());
 
+    private static final String JOB_MEMBERS = "displayName,name,buildable,color,inQueue,lastStableBuild[number],lastCompletedBuild[number]";
+    private static final String VIEW_MEMBERS = "name,property,description,jobs[" + CiServerObject.JOB_MEMBERS + "]";
+
     public static final String EMPTY_RESULT = "[[]]";
 
     private static enum Path {
@@ -25,10 +28,10 @@ public class CiServerObject {
                 "nodeDescription,views[name]"),
 
         View(    hudson.model.View.class,
-                "name,property,description,jobs[description,displayName,nextBuildNumber]"),
+                CiServerObject.VIEW_MEMBERS + ",views[" + CiServerObject.VIEW_MEMBERS + "]"),
 
         Job(    hudson.model.Job.class,
-                "displayName,name,buildable,color,inQueue,lastBuild[number]"),
+                CiServerObject.JOB_MEMBERS),
 
         Build(    hudson.model.AbstractBuild.class,
                 "description,fullDisplayName,result,culprits");

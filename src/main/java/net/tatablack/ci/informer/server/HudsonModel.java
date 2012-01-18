@@ -14,15 +14,15 @@ import net.tatablack.ci.informer.serialization.CiServerObject;
  */
 public class HudsonModel {
     public static String getViews(String[] viewNames) {
-        StringBuilder jobArray = new StringBuilder("[");
+        StringBuilder jobsJSONArray = new StringBuilder("[");
 
         for (String viewName : viewNames) {
-            jobArray.append(CiServerObject.toJSON(Hudson.getInstance().getView(viewName))).append(",");
+            jobsJSONArray.append(CiServerObject.toJSON(Hudson.getInstance().getView(viewName))).append(",");
         }
 
-        jobArray.deleteCharAt(jobArray.length() - 1).append("]");
+        jobsJSONArray.deleteCharAt(jobsJSONArray.length() - 1).append("]");
 
-        return jobArray.toString();
+        return jobsJSONArray.toString();
     }
 
     public static String getViews(Collection<View> views) {

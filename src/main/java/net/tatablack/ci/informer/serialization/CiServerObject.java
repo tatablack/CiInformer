@@ -25,7 +25,7 @@ public class CiServerObject {
 
     private static enum Path {
         Hudson( hudson.model.Hudson.class,
-                "nodeDescription,views[name]"),
+                "nodeDescription,views[" + CiServerObject.VIEW_MEMBERS + "]"),
 
         View(    hudson.model.View.class,
                 CiServerObject.VIEW_MEMBERS + ",views[" + CiServerObject.VIEW_MEMBERS + "]"),

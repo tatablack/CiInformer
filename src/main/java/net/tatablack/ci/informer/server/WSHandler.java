@@ -4,9 +4,10 @@ import hudson.model.Hudson;
 
 import java.util.logging.Logger;
 
+import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
 import net.tatablack.ci.informer.serialization.CiServerObject;
 
-import org.mortbay.util.ajax.JSONObjectConvertor;
 import org.webbitserver.WebSocketConnection;
 import org.webbitserver.WebSocketHandler;
 
@@ -21,10 +22,6 @@ public class WSHandler implements WebSocketHandler {
         WSServer.addConnection(connection);
         connection.data(WSHandler.VIEWNAMES, connection.httpRequest().queryParam(WSHandler.VIEWNAMES));
 
-        connection.send(HudsonModel.getViews(
-            ((String)connection.data(WSHandler.VIEWNAMES)).split(",")
-        ));
-
         logger.finer("Connection opened (protocol: " + connection.version() + ", viewNames: " + connection.data(WSHandler.VIEWNAMES) + ")");
     }
 
@@ -34,8 +31,23 @@ public class WSHandler implements WebSocketHandler {
     }
 
     public void onMessage(WebSocketConnection connection, String message) throws Throwable {
-        logger.finer(message);
-        //connection.send(CiServerObject.toJSON(Hudson.getInstance().getView(viewName)));
+        String response = "";
+        logger.finest(message);
+        
+        try {
+            JSONObject jsonMessage = JSONObject.fromObject(message);
+            JSONObject jsonMessageData = jsonMessage.getJSONObject("data");
+            
+            WSMessage wsMessage = new WSMessage(jsonMessage.getString("clientId"), jsonMessage.getString("method"));
+            wsMessage.setResponse(CiServerObject.toJSON(Hudson.getInstance().getView(jsonMessageData.getString("viewName"))));
+            
+            response = JSONObject.fromObject(wsMessage).toString();
+        } catch (JSONException jsonEx) {
+            logger.severe(jsonEx.getMessage());
+        }
+        
+        logger.finest(response);
+        connection.send(response);
     }
 
     public void onMessage(WebSocketConnection connection, byte[] msg) throws Throwable {

@@ -34,7 +34,7 @@ public class CiServerObject {
                 CiServerObject.JOB_MEMBERS),
 
         Build(    hudson.model.AbstractBuild.class,
-                "description,fullDisplayName,result,culprits");
+                "id,building,fullDisplayName,result,culprits[fullName]");
 
         private Class<?> clazz;
         private String structure;

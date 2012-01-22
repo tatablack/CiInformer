@@ -20,7 +20,9 @@ public class CiServerRunListener extends RunListener<AbstractBuild> {
     @Override
     public void onStarted(AbstractBuild build, TaskListener listener) {
         if(build!=null) {
-            logger.finest("Build for " + build.getFullDisplayName() + " started.");
+            logger.finest("Build for " + build.getFullDisplayName() + " started...");
+            logger.finest(build.getProject().getRootProject().getName());
+
             WSServer.broadcast(CiServerObject.toJSON(build));
         }
     }

@@ -10,6 +10,7 @@
 
     <groupId>net.tatablack.ci</groupId>
     <artifactId>informer</artifactId>
+    <name>CI Informer</name>
     <version>1.0-SNAPSHOT</version>
     <packaging>hpi</packaging>
 
@@ -32,7 +33,7 @@
         <dependency>
             <groupId>org.webbitserver</groupId>
             <artifactId>webbit</artifactId>
-            <version>0.3.0</version>
+            <version>0.3.6</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

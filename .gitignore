@@ -3,8 +3,15 @@
 .classpath
 .settings
 
+# Intellij configuration files
+.idea
+*.iml
+
 # Generated sources
 target
+
+# Output folders
+bin
 
 # Uncompressed Jenkins/Hudson
 work

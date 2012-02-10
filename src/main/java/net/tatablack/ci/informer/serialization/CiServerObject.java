@@ -25,23 +25,26 @@ public class CiServerObject {
 
     private static enum Path {
         Hudson( hudson.model.Hudson.class,
-                "nodeDescription,views[" + CiServerObject.VIEW_MEMBERS + "]"),
+        		new NamedPathPruner("nodeDescription,views[" + CiServerObject.VIEW_MEMBERS + "]")),
 
-        View(    hudson.model.View.class,
-                CiServerObject.VIEW_MEMBERS + ",views[" + CiServerObject.VIEW_MEMBERS + "]"),
+        View(   hudson.model.View.class,
+        		new NamedPathPruner(CiServerObject.VIEW_MEMBERS + ",views[" + CiServerObject.VIEW_MEMBERS + "]")),
 
         Job(    hudson.model.Job.class,
-                CiServerObject.JOB_MEMBERS),
+        		new NamedPathPruner(CiServerObject.JOB_MEMBERS)),
 
-        Build(    hudson.model.AbstractBuild.class,
-                "id,building,fullDisplayName,result,number,culprits[fullName]");
+        Build(  hudson.model.AbstractBuild.class,
+        		new NamedPathPruner("id,building,fullDisplayName,result,number,culprits[fullName]")),
+
+        Unknown(null,
+        		new TreePruner.ByDepth(1));
 
         private Class<?> clazz;
-        private String structure;
+        private TreePruner pruner;
 
-        private Path(Class<?> clazz, String structure) {
+        private Path(Class<?> clazz, TreePruner pruner) {
             this.clazz = clazz;
-            this.structure = structure;
+            this.pruner = pruner;
         }
     }
 
@@ -52,11 +55,12 @@ public class CiServerObject {
             StringWriter writer = new StringWriter();
 
             Model model = CiServerObject.MODEL_BUILDER.get(item.getClass());
+            Path path = CiServerObject.getPath(item);
 
             try {
                 model.writeTo(    item,
-                                CiServerObject.getPruner(item),
-                                new JSONDataWriter(writer));
+                                  path.pruner,
+                                  new JSONDataWriter(writer, path.name()));
                 result = writer.toString();
 
                 logger.finest(result);
@@ -69,17 +73,22 @@ public class CiServerObject {
         return result;
     }
 
-    private static TreePruner getPruner(Object item) {
+    private static Path getPath(Object item) {
+    	Path result = Path.Unknown;
+
         for (CiServerObject.Path path : CiServerObject.Path.values()) {
             logger.finer("Looking at path " + path.name() + " (" + path.clazz.getName() + ")");
 
-            if(path.clazz.isInstance(item)) {
-                return new NamedPathPruner(path.structure);
+            // The null check is really ugly, consider it temporary
+            if(path.clazz!=null && path.clazz.isInstance(item)) {
+            	result = path;
+            	break;
             }
         }
 
-        return new TreePruner.ByDepth(1);
+        return result;
     }
+
 
     private static boolean isExportable(Object item) {
         boolean isExportable = false;

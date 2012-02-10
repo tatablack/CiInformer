@@ -25,7 +25,6 @@ package net.tatablack.ci.informer.serialization;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.kohsuke.stapler.StaplerResponse;
 import org.kohsuke.stapler.export.DataWriter;
 
 /**
@@ -36,13 +35,11 @@ import org.kohsuke.stapler.export.DataWriter;
 public class JSONDataWriter implements DataWriter {
     protected boolean needComma;
     protected final Writer out;
+    protected final String objectType;
 
-    public JSONDataWriter(Writer out) throws IOException {
+    public JSONDataWriter(Writer out, String objectType) throws IOException {
         this.out = out;
-    }
-
-    public JSONDataWriter(StaplerResponse rsp) throws IOException {
-        out = rsp.getWriter();
+        this.objectType = objectType;
     }
 
     public void name(String name) throws IOException {
@@ -100,12 +97,12 @@ public class JSONDataWriter implements DataWriter {
 
     public void startObject() throws IOException {
         comma();
-        out.write('{');
+        out.write("{\"objectType\":\"" + this.objectType + "\",\"content\":{");
         needComma=false;
     }
 
     public void endObject() throws IOException {
-        out.write('}');
+        out.write("}}");
         needComma=true;
     }
 }

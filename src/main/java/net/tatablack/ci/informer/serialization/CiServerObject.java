@@ -77,7 +77,7 @@ public class CiServerObject {
     	Path result = Path.Unknown;
 
         for (CiServerObject.Path path : CiServerObject.Path.values()) {
-            logger.finer("Looking at path " + path.name() + " (" + path.clazz.getName() + ")");
+            logger.finer("Looking at path " + path.name() + " (" + path.clazz + ")");
 
             // The null check is really ugly, consider it temporary
             if(path.clazz!=null && path.clazz.isInstance(item)) {

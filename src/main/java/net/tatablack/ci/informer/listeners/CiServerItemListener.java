@@ -21,4 +21,10 @@ public class CiServerItemListener extends ItemListener {
     public void onCreated(Item item) {
         WSServer.broadcast(CiServerObject.toJSON(item));
     }
+
+    public void onRenamed(Item item, String oldName, String newName) {
+    }
+
+    public void onDeleted(Item item) {
+    }
 }

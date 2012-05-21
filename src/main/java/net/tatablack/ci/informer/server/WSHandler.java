@@ -8,21 +8,19 @@ import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 import net.tatablack.ci.informer.serialization.CiServerObject;
 
+import org.webbitserver.BaseWebSocketHandler;
 import org.webbitserver.WebSocketConnection;
-import org.webbitserver.WebSocketHandler;
 
 /**
  * @author Angelo Tata
  */
-public class WSHandler implements WebSocketHandler {
+public class WSHandler extends BaseWebSocketHandler {
     private static final Logger logger = Logger.getLogger(WSHandler.class.getName());
-    private static final String VIEWNAMES = "viewNames";
 
     public void onOpen(WebSocketConnection connection) throws Exception {
         WSServer.addConnection(connection);
-        connection.data(WSHandler.VIEWNAMES, connection.httpRequest().queryParam(WSHandler.VIEWNAMES));
 
-        logger.finer("Connection opened (protocol: " + connection.version() + ", viewNames: " + connection.data(WSHandler.VIEWNAMES) + ")");
+        logger.finer("Connection opened (protocol: " + connection.version() + ", viewNames: " + connection.data(WSConnection.VIEWNAMES).toString() + ")");
     }
 
     public void onClose(WebSocketConnection connection) throws Exception {
@@ -39,6 +37,9 @@ public class WSHandler implements WebSocketHandler {
             JSONObject jsonMessageData = jsonMessage.getJSONObject("data");
             
             WSMessage wsMessage = new WSMessage(jsonMessage.getString("clientId"), jsonMessage.getString("method"));
+
+            // We assume that the only message sent by clients
+            // will be to require a view.
             wsMessage.setResponse(CiServerObject.toJSON(Hudson.getInstance().getView(jsonMessageData.getString("viewName"))));
             
             response = JSONObject.fromObject(wsMessage).toString();
@@ -48,11 +49,5 @@ public class WSHandler implements WebSocketHandler {
         
         logger.finest(response);
         connection.send(response);
-    }
-
-    public void onMessage(WebSocketConnection connection, byte[] msg) throws Throwable {
-    }
-
-    public void onPong(WebSocketConnection connection, String msg) throws Throwable {
     }
 }

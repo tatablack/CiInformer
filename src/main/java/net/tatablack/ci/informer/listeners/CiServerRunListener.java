@@ -1,6 +1,7 @@
 package net.tatablack.ci.informer.listeners;
 
 import hudson.Extension;
+import hudson.model.Hudson;
 import hudson.model.TaskListener;
 import hudson.model.AbstractBuild;
 import hudson.model.listeners.RunListener;
